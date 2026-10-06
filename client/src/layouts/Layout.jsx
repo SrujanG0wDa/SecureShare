@@ -12,8 +12,9 @@ import {
   Menu, 
   X,
   Upload,
-  Lock,
-  ChevronRight
+  Search,
+  ChevronRight,
+  Bell
 } from 'lucide-react';
 import FileUploadModal from '../components/FileUploadModal';
 
@@ -38,169 +39,183 @@ const Layout = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row font-sans">
-      {/* Mobile Top Header */}
-      <div className="md:hidden bg-slate-900 text-white p-4 flex items-center justify-between border-b border-slate-800 sticky top-0 z-30">
-        <div className="flex items-center gap-2 font-bold text-lg text-indigo-400">
-          <div className="p-1.5 bg-indigo-600 text-white rounded-lg">
-            <Shield className="w-5 h-5" />
-          </div>
-          <span>SecureShare</span>
-        </div>
-        <button 
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="p-2 text-slate-300 hover:text-white rounded-lg hover:bg-slate-800 focus:outline-none"
-        >
-          {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
-      </div>
-
-      {/* Desktop Sidebar */}
-      <aside className="hidden md:flex flex-col w-64 bg-slate-900 text-slate-300 min-h-screen border-r border-slate-800 sticky top-0 h-screen overflow-y-auto">
-        {/* Brand */}
-        <div className="p-6 border-b border-slate-800 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-gradient-to-tr from-indigo-600 to-violet-500 text-white rounded-xl shadow-lg shadow-indigo-500/20">
-              <Shield className="w-6 h-6" />
+    <div className="min-h-screen bg-[#c8d9e6] p-3 md:p-6 font-sans">
+      <div className="max-w-[1600px] mx-auto min-h-[calc(100vh-3rem)] flex flex-col md:flex-row rounded-3xl overflow-hidden shadow-2xl bg-[#dce7f0]/60 backdrop-blur-md border border-white/40">
+        {/* Mobile Header */}
+        <div className="md:hidden bg-[#093d62] text-white p-4 flex items-center justify-between sticky top-0 z-30">
+          <div className="flex items-center gap-2.5 font-bold text-lg text-white">
+            <div className="w-8 h-8 rounded-full bg-white text-[#093d62] font-black flex items-center justify-center text-sm shadow-md">
+              S
             </div>
-            <div>
-              <h1 className="font-bold text-lg text-white tracking-wide">SecureShare</h1>
-              <p className="text-xs text-indigo-400 font-medium">Controlled File System</p>
-            </div>
+            <span>SecureShare</span>
           </div>
-        </div>
-
-        {/* Quick Action */}
-        <div className="px-4 py-5">
-          <button
-            onClick={() => setUploadModalOpen(true)}
-            className="w-full py-3 px-4 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-medium rounded-xl shadow-md shadow-indigo-600/30 transition flex items-center justify-center gap-2 group"
+          <button 
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="p-2 text-slate-200 hover:text-white rounded-xl hover:bg-[#0c4a75]"
           >
-            <Upload className="w-4 h-4 transition-transform group-hover:-translate-y-0.5" />
-            <span>Upload Secure File</span>
+            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
 
-        {/* Navigation Links */}
-        <nav className="flex-1 px-3 py-2 space-y-1">
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = location.pathname === item.path;
-            return (
-              <NavLink
-                key={item.path}
-                to={item.path}
-                className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition ${
-                  isActive
-                    ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20'
-                    : 'text-slate-400 hover:bg-slate-800/80 hover:text-slate-200'
-                }`}
-              >
-                <Icon className={`w-5 h-5 ${isActive ? 'text-white' : 'text-slate-400'}`} />
-                <span>{item.label}</span>
-              </NavLink>
-            );
-          })}
-        </nav>
-
-        {/* User Card & Logout */}
-        <div className="p-4 border-t border-slate-800 bg-slate-950/40">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-white font-bold flex items-center justify-center text-sm shadow-sm">
-              {user?.name ? user.name[0].toUpperCase() : 'U'}
+        {/* Left Navy Sidebar */}
+        <aside className="hidden md:flex flex-col w-64 bg-[#093d62] text-slate-200 p-5 shrink-0 justify-between rounded-l-3xl">
+          <div className="space-y-6">
+            {/* Logo */}
+            <div className="flex items-center gap-3 px-2 py-2">
+              <div className="w-10 h-10 rounded-full bg-white text-[#093d62] font-black flex items-center justify-center text-xl shadow-lg">
+                P
+              </div>
+              <div>
+                <h1 className="font-bold text-lg text-white tracking-tight leading-none">SecureShare</h1>
+                <p className="text-[11px] text-indigo-200 font-medium mt-1">Control Protocol</p>
+              </div>
             </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-xs font-semibold text-white truncate">{user?.name || 'User'}</p>
-              <p className="text-[11px] text-slate-400 truncate">{user?.email}</p>
-            </div>
-          </div>
-          <button
-            onClick={handleLogout}
-            className="w-full py-2 px-3 text-xs font-medium text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition flex items-center justify-center gap-2"
-          >
-            <LogOut className="w-4 h-4" />
-            <span>Sign Out</span>
-          </button>
-        </div>
-      </aside>
 
-      {/* Mobile Drawer Menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 z-40 bg-slate-900/95 backdrop-blur-md flex flex-col p-6 text-slate-200">
-          <div className="flex justify-between items-center pb-6 border-b border-slate-800">
-            <div className="flex items-center gap-2 text-indigo-400 font-bold text-lg">
-              <Shield className="w-6 h-6" />
-              <span>SecureShare</span>
-            </div>
-            <button onClick={() => setMobileMenuOpen(false)} className="p-2 text-slate-400">
-              <X className="w-6 h-6" />
-            </button>
-          </div>
-
-          <div className="py-4">
+            {/* Upload Button */}
             <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                setUploadModalOpen(true);
-              }}
-              className="w-full py-3 px-4 bg-indigo-600 text-white font-medium rounded-xl flex items-center justify-center gap-2"
+              onClick={() => setUploadModalOpen(true)}
+              className="w-full py-3 px-4 bg-gradient-to-r from-sky-400 to-indigo-500 hover:from-sky-300 hover:to-indigo-400 text-white font-semibold rounded-2xl shadow-lg shadow-sky-500/20 transition flex items-center justify-center gap-2 text-sm"
             >
-              <Upload className="w-5 h-5" />
+              <Upload className="w-4 h-4" />
               <span>Upload Secure File</span>
             </button>
+
+            {/* Nav links */}
+            <nav className="space-y-2 pt-2">
+              {navItems.map((item) => {
+                const Icon = item.icon;
+                const isActive = location.pathname === item.path;
+                return (
+                  <NavLink
+                    key={item.path}
+                    to={item.path}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-2xl font-semibold text-xs transition ${
+                      isActive
+                        ? 'bg-white text-[#093d62] shadow-md shadow-black/10'
+                        : 'text-slate-200 hover:bg-[#0c4a75]/70 hover:text-white'
+                    }`}
+                  >
+                    <Icon className={`w-4 h-4 ${isActive ? 'text-[#093d62]' : 'text-slate-300'}`} />
+                    <span>{item.label}</span>
+                  </NavLink>
+                );
+              })}
+            </nav>
           </div>
 
-          <nav className="space-y-2 flex-1 my-4">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              return (
-                <NavLink
-                  key={item.path}
-                  to={item.path}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={({ isActive }) =>
-                    `flex items-center justify-between px-4 py-3 rounded-xl text-base font-medium ${
-                      isActive ? 'bg-indigo-600 text-white' : 'text-slate-300 hover:bg-slate-800'
-                    }`
-                  }
-                >
-                  <div className="flex items-center gap-3">
-                    <Icon className="w-5 h-5" />
-                    <span>{item.label}</span>
-                  </div>
-                  <ChevronRight className="w-4 h-4 opacity-50" />
-                </NavLink>
-              );
-            })}
-          </nav>
-
-          <div className="pt-4 border-t border-slate-800">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full bg-indigo-600 text-white font-bold flex items-center justify-center">
-                {user?.name ? user.name[0].toUpperCase() : 'U'}
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-white truncate">{user?.name}</p>
-                <p className="text-xs text-slate-400 truncate">{user?.email}</p>
-              </div>
-            </div>
+          {/* Bottom Logout */}
+          <div className="pt-4 border-t border-[#0d4f7d]">
             <button
               onClick={handleLogout}
-              className="w-full py-2.5 px-4 bg-rose-600/10 text-rose-400 font-medium rounded-xl flex items-center justify-center gap-2"
+              className="w-full py-2.5 px-3 text-xs font-semibold text-slate-300 hover:text-white hover:bg-rose-500/20 rounded-xl transition flex items-center gap-2"
             >
-              <LogOut className="w-5 h-5" />
-              <span>Sign Out</span>
+              <LogOut className="w-4 h-4 text-rose-400" />
+              <span>Log Out</span>
             </button>
           </div>
+        </aside>
+
+        {/* Mobile Drawer */}
+        {mobileMenuOpen && (
+          <div className="md:hidden fixed inset-0 z-40 bg-[#093d62]/95 backdrop-blur-md flex flex-col p-6 text-white">
+            <div className="flex justify-between items-center pb-4 border-b border-slate-700">
+              <div className="flex items-center gap-2 font-bold text-lg">
+                <div className="w-8 h-8 rounded-full bg-white text-[#093d62] font-black flex items-center justify-center">S</div>
+                <span>SecureShare</span>
+              </div>
+              <button onClick={() => setMobileMenuOpen(false)} className="p-2 text-slate-300">
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            <div className="py-4">
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  setUploadModalOpen(true);
+                }}
+                className="w-full py-3 bg-sky-500 text-white font-semibold rounded-2xl flex items-center justify-center gap-2"
+              >
+                <Upload className="w-5 h-5" />
+                <span>Upload Secure File</span>
+              </button>
+            </div>
+
+            <nav className="space-y-2 flex-1 my-2">
+              {navItems.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <NavLink
+                    key={item.path}
+                    to={item.path}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={({ isActive }) =>
+                      `flex items-center justify-between px-4 py-3 rounded-2xl text-sm font-semibold ${
+                        isActive ? 'bg-white text-[#093d62]' : 'text-slate-200 hover:bg-[#0c4a75]'
+                      }`
+                    }
+                  >
+                    <div className="flex items-center gap-3">
+                      <Icon className="w-4 h-4" />
+                      <span>{item.label}</span>
+                    </div>
+                    <ChevronRight className="w-4 h-4 opacity-50" />
+                  </NavLink>
+                );
+              })}
+            </nav>
+
+            <button
+              onClick={handleLogout}
+              className="py-3 px-4 bg-rose-500/20 text-rose-300 font-semibold rounded-2xl flex items-center justify-center gap-2"
+            >
+              <LogOut className="w-5 h-5" />
+              <span>Log Out</span>
+            </button>
+          </div>
+        )}
+
+        {/* Right Main Panel */}
+        <div className="flex-1 min-w-0 flex flex-col p-4 md:p-6 overflow-y-auto space-y-6">
+          {/* Top Bar Header */}
+          <div className="bg-white rounded-2xl p-3 md:px-6 md:py-3 shadow-sm flex items-center justify-between border border-slate-200/60">
+            {/* Search Input */}
+            <div className="relative w-72 md:w-96">
+              <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                placeholder="Search here..."
+                className="w-full pl-10 pr-4 py-2 bg-[#edf3f8] text-xs rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500/40 text-slate-700 font-medium"
+              />
+            </div>
+
+            {/* Profile Avatar Header */}
+            <div className="flex items-center gap-4">
+              <button className="p-2 text-slate-400 hover:text-slate-600 rounded-xl hover:bg-slate-100 relative">
+                <Bell className="w-4 h-4" />
+                <span className="w-2 h-2 bg-rose-500 rounded-full absolute top-1.5 right-1.5" />
+              </button>
+
+              <div className="flex items-center gap-3 pl-3 border-l border-slate-200">
+                <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-sky-500 to-indigo-600 text-white font-bold text-sm flex items-center justify-center shadow-md">
+                  {user?.name ? user.name[0].toUpperCase() : 'A'}
+                </div>
+                <div className="hidden md:block">
+                  <p className="text-xs font-bold text-slate-800 leading-tight">{user?.name || 'User Name'}</p>
+                  <p className="text-[10px] font-medium text-slate-400">{user?.email}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Main Outlet */}
+          <div className="flex-1">
+            <Outlet context={{ openUploadModal: () => setUploadModalOpen(true) }} />
+          </div>
         </div>
-      )}
+      </div>
 
-      {/* Main Content Area */}
-      <main className="flex-1 min-w-0 overflow-y-auto">
-        <Outlet context={{ openUploadModal: () => setUploadModalOpen(true) }} />
-      </main>
-
-      {/* Shared Upload Modal */}
+      {/* Upload Modal */}
       {uploadModalOpen && (
         <FileUploadModal onClose={() => setUploadModalOpen(false)} onSuccess={() => window.location.reload()} />
       )}
