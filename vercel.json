@@ -1,27 +1,16 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "services": {
-    "client": {
-      "root": "client",
-      "framework": "vite"
-    },
-    "server": {
-      "root": "server",
-      "entrypoint": "src/app.js"
-    }
-  },
+  "buildCommand": "cd client && npm install && npm run build",
+  "outputDirectory": "client/dist",
+  "installCommand": "npm run install:all",
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": {
-        "service": "server"
-      }
+      "destination": "/api"
     },
     {
       "source": "/(.*)",
-      "destination": {
-        "service": "client"
-      }
+      "destination": "/index.html"
     }
   ]
 }
